@@ -1,10 +1,12 @@
+import LinkList from "./LinkList";
+
 export interface ProfileViewData {
   displayName: string;
   bio?: string;
   links: { id: string; title: string; url: string }[];
 }
 
-// 공개 프로필 화면 (wireframe.png 기준). 서버 컴포넌트로 유지해 클라이언트 번들을 만들지 않는다.
+// 공개 프로필 화면 (wireframe.png 기준). 서버 컴포넌트로 유지하고, 클릭수가 필요한 링크 목록(LinkList)만 클라이언트 컴포넌트로 분리한다.
 export default function ProfileView({ displayName, bio, links }: ProfileViewData) {
   return (
     <main className="relative isolate flex flex-1 justify-center overflow-hidden bg-gradient-to-b from-[#fffaf2] via-[#fff0e3] to-[#ffdcc8] px-6 py-16 sm:py-24 dark:from-[#1a1512] dark:via-[#211915] dark:to-[#2e1f18]">
@@ -30,20 +32,7 @@ export default function ProfileView({ displayName, bio, links }: ProfileViewData
           </p>
         )}
 
-        <ul className="mt-12 flex w-full flex-col gap-4">
-          {links.map((link) => (
-            <li key={link.id}>
-              <a
-                href={link.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block rounded-2xl border border-white/70 bg-white/45 px-6 py-[1.125rem] text-center text-[15px] font-semibold text-stone-700 shadow-[0_1px_2px_rgba(120,70,40,0.06),0_10px_30px_-14px_rgba(160,90,50,0.35)] backdrop-blur-xl transition duration-300 ease-out hover:-translate-y-0.5 hover:bg-white/65 hover:shadow-[0_1px_2px_rgba(120,70,40,0.06),0_14px_34px_-14px_rgba(160,90,50,0.45)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#f39a78] motion-reduce:transition-none motion-reduce:hover:translate-y-0 dark:border-white/10 dark:bg-white/5 dark:text-stone-200 dark:hover:bg-white/10"
-              >
-                {link.title}
-              </a>
-            </li>
-          ))}
-        </ul>
+        <LinkList links={links} />
       </div>
     </main>
   );
